@@ -48,7 +48,7 @@ export default function AboutPage() {
         {showImage && (
           <div>
             <button onClick={handleImage} className='bg-white text-black px-6 py-2 rounded-[8px] mb-4'>Dejar de ver imagen</button>
-            <Image src="/fotoCami.jpeg" width={300} height={400} alt='Foto de Cami' className='rounded-[8px]'/>
+            <Image src="/camiFoto.png" width={400} height={500} alt='Foto de Cami' className='rounded-[8px]'/>
           </div>
         )}
         </section>
