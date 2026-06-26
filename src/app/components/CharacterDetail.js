@@ -36,7 +36,7 @@ export default function CharacterDetail({ id }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const API_URL = ``;
+  const API_URL = `https://rickandmortyapi.com/api/character/${id}`;
 
   // PUNTO 1: FETCH DEL DETALLE
   // Consultar con Axios el personaje seleccionado y obtener la información
@@ -44,15 +44,29 @@ export default function CharacterDetail({ id }) {
   useEffect(() => {
     const fetchCharacterDetail = async () => {
       try {
+        const response = await axios.get(API_URL);
+        const data = response.data;
+        setCharacterDetail(data);
+        console.log(data);
+        
+        setEpisodes(await obtenerEpisodios(data.episode));
+        console.log(episodes)
+
       } catch (error) {
         console.error('Error al obtener el personaje:', error);
         setError(true);
+
+      } finally {
+        setLoading(false)
       }
 
     };
 
     fetchCharacterDetail();
+    
   }, [id]);
+
+
 
   if (loading) return <DetailLoader />;
 
@@ -64,6 +78,7 @@ export default function CharacterDetail({ id }) {
     );
   }
 
+  
   // PUNTO 3: PÁGINA DE PERSONAJE
   // Mostrar los datos solicitados del personaje y una EpisodeCard
   // por cada episodio en el que aparece.
@@ -82,7 +97,7 @@ export default function CharacterDetail({ id }) {
           <div className='absolute -inset-6 -z-10 animate-floaty rounded-full bg-gradient-radial from-portal/30 via-aqua/15 to-transparent blur-2xl' />
           <div className='relative aspect-square overflow-hidden rounded-3xl border border-white/10 shadow-2xl'>
             <Image
-              src='/next.svg'
+              src={`https://rickandmortyapi.com/api/character/avatar/${characterDetail.id}.jpeg`}
               fill
               sizes='400px'
               alt='Completar imagen del personaje'
@@ -93,21 +108,21 @@ export default function CharacterDetail({ id }) {
 
         <div>
           <span className='mb-4 inline-flex rounded-full border border-portal/40 bg-portal/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-portal'>
-            estado
+            {characterDetail.status}
           </span>
 
           <h1 className='text-4xl font-extrabold tracking-tight text-mist md:text-5xl'>
-            Nombre
+            {characterDetail.name}
           </h1>
           <p className='mt-2 text-haze'></p>
 
           <div className='mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3'>
-            <Stat label='Especie' value={''} />
-            <Stat label='Género' value={''} />
-            <Stat label='Estado' value={''} />
-            <Stat label='Origen' value={''} />
-            <Stat label='Última ubicación' value={''} />
-            <Stat label='Episodios' value={''} />
+            <Stat label='Especie' value={characterDetail.species} />
+            <Stat label='Género' value={characterDetail.gender} />
+            <Stat label='Estado' value={characterDetail.status}/>
+            <Stat label='Origen' value={characterDetail.origin.name} />
+            <Stat label='Última ubicación' value={characterDetail.location.name} />
+            <Stat label='Episodios' value={characterDetail.episode.length} />
           </div>
         </div>
       </div>
@@ -116,7 +131,9 @@ export default function CharacterDetail({ id }) {
         <h2 className='mb-4 text-xl font-bold text-mist'>Episodios</h2>
         <div className='scroll-portal max-h-[420px] overflow-y-auto rounded-2xl border border-white/10 bg-panel/50 p-3'>
           <ul className='episodios grid grid-cols-1 gap-2 sm:grid-cols-2'>
-
+            {episodes.map((episode) => (
+              <EpisodeCard key={episode.id} episode={episode}></EpisodeCard>
+            ))}
           </ul>
         </div>
       </section>

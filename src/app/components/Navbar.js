@@ -21,7 +21,9 @@ export default function Navbar() {
             </li>
             <li>
               {/* PUNTO 4: agregar el acceso a la página About. */}
-              <span className='text-haze'>About</span>
+              <Link href='/about' className='text-haze transition-colors hover:text-portal'>
+                About
+              </Link>
             </li>
           </ul>
         </nav>

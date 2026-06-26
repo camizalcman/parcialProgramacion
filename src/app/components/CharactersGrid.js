@@ -5,6 +5,10 @@ export default function CharactersGrid({ characters, loading }) {
   // Mostrar una Card por cada personaje recibido cuando finalice la carga.
   return (
     <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'>
+      {characters.map((character) => (
+        <Card key={character.id} character={character}></Card>
+      )
+      )}
     </div>
   );
 }

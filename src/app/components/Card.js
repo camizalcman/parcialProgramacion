@@ -6,12 +6,12 @@ export default function Card({ character }) {
   // Mostrar los datos del personaje recibido y permitir acceder a su detalle.
   return (
     <Link
-      href='#'
+      href={`/character/${character.id}`}
       className='group relative block overflow-hidden rounded-2xl border border-white/10 bg-panel/60 transition duration-300 hover:-translate-y-1.5 hover:border-portal/50 hover:shadow-[0_10px_40px_-8px_rgba(151,206,76,0.4)]'
     >
       <div className='relative aspect-square overflow-hidden'>
         <Image
-          src='/next.svg'
+          src={`https://rickandmortyapi.com/api/character/avatar/${character.id}.jpeg`}
           fill
           sizes='(max-width:768px) 50vw, 25vw'
           alt='Completar imagen del personaje'
@@ -21,7 +21,7 @@ export default function Card({ character }) {
       </div>
       <div className='absolute inset-x-0 bottom-0 p-4'>
         <h2 className='truncate text-base font-semibold text-mist transition-colors group-hover:text-portal'>
-          Nombre
+          {character.name}
         </h2>
       </div>
     </Link>
